@@ -4,12 +4,18 @@ FROM jeanblanchard/java:jre-8
 
 MAINTAINER Dariusz Skrzypoń <dariusz.skrzypon@infakt.pl>
 
-RUN apk add --update libxml2 libstdc++ # needed for pdf2xml
-RUN apk add --update ghostscript # needed for imagemagick
-RUN apk add --update imagemagick # needed for converting pdfs into images
-
-RUN echo http://dl-cdn.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories # tesseract is in testing repo
-RUN apk add --update tesseract-ocr # OCR
-
-RUN rm -rf /var/cache/apk/* # cleans package manager cache
+    # tesseract is in testing repo
+RUN echo http://dl-cdn.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories &&\
+    # refreshes apk index
+    apk update &&\
+    # libxml2 libstdc++ needed for pdf2xml
+    apk add libxml2 libstdc++ &&\
+    # needed for imagemagick
+    apk add ghostscript &&\
+    # needed for converting pdfs into images
+    apk add imagemagick &&\
+    # OCR
+    apk add tesseract-ocr &&\
+    # cleans package manager cache
+    rm -rf /var/cache/apk/*
 
