@@ -9,6 +9,8 @@ ENV TESSDATA_PREFIX /usr/share
 RUN echo http://dl-cdn.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories &&\
     # refreshes apk index
     apk update &&\
+    # libxml2 libstdc++ needed for pdf2xml
+    apk add libxml2 libstdc++ &&\
     # pdf2html binary
     apk add poppler poppler-utils &&\
     # needed for imagemagick
