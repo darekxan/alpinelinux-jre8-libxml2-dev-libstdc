@@ -1,8 +1,26 @@
 # Extend minimal jeanblanchard/java:jre-8
 FROM darekxan/alpinelinux-jre8-libxml2-dev-libstdc:latest
 
-    # py-scipy is in testing repo
-    RUN echo http://dl-cdn.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories &&\
+########### TODO: remove asap - reverted version of glibc
+
+ENV GLIBC_VERSION 2.22-r8
+
+# Download and install specific glibc; effectively downgrade
+RUN apk add --update curl && \
+  curl -o glibc.apk -L "https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-${GLIBC_VERSION}.apk" && \
+  apk add --allow-untrusted glibc.apk && \
+  curl -o glibc-bin.apk -L "https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-bin-${GLIBC_VERSION}.apk" && \
+  apk add --allow-untrusted glibc-bin.apk && \
+  /usr/glibc-compat/sbin/ldconfig /lib /usr/glibc/usr/lib && \
+  echo 'hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4' >> /etc/nsswitch.conf && \
+  apk del curl && \
+  rm -f glibc.apk glibc-bin.apk && \
+  rm -rf /var/cache/apk/*
+
+###########
+
+# py-scipy is in testing repo
+RUN echo http://dl-cdn.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories &&\
     # refresh apk index
     apk update &&\
     # install scipy and as dependencies: python and numpy
