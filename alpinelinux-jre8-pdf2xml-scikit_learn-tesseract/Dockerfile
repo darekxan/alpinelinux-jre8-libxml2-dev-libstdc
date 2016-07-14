@@ -35,6 +35,8 @@ RUN echo http://dl-cdn.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositor
     pip install --upgrade pip &&\
     # install scikit-learn from sources scikit-learn
     pip install --upgrade scikit-learn &&\
+    # install rethinkdb
+    pip install --upgrade rethinkdb &&\
     # all done - cleanup phase
     # remove scikit-learn compilation requirements
     apk del openblas-dev &&\
