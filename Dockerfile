@@ -17,8 +17,6 @@ RUN echo http://dl-cdn.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositor
     apk add ghostscript &&\
     # needed for converting pdfs into images
     apk add imagemagick &&\
-    # OCR
-    apk add tesseract-ocr &&\
     # cleans package manager cache
     rm -rf /var/cache/apk/*
 
