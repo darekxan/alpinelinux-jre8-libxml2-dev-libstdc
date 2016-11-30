@@ -19,8 +19,9 @@ RUN apk add --update curl && \
 
 ###########
 
-# py-scipy is in testing repo
+# py-scipy is in testing repo, py-numpy in community
 RUN echo http://dl-cdn.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories &&\
+    echo http://dl-cdn.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories &&\
     # refresh apk index
     apk update &&\
     # install scipy and as dependencies: python and numpy
